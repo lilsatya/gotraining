@@ -1,2 +1,2 @@
 # gotraining
-simple crud with go and postgres
+the start of my journey to learn go.
