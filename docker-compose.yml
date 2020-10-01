@@ -1,0 +1,23 @@
+version: '3'
+services:
+  api:
+    build: .
+    ports:
+      - ${APP_PORT}:8080
+    restart: on-failure
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 5500:5432
+    volumes:
+      - 'gotraining-db:/var/lib/postgresql/data'
+
+volumes:
+  gotraining-db:
+    driver: local
