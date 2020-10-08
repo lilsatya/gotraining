@@ -17,3 +17,19 @@
 - Decided to make a journal everytime I work on this project.
 
 I'll admit I haven't really grasp on how golang works, most of the codes I still took reference from others' people work.
+
+## 08-10-2020
+
+- Finally able to fully CRUD with database, got problem first because I forgot to set .env as "db" for db host, it is needed for docker-compose.
+
+- Create utils library for response error and response with json.
+
+- Still confused about best practice. From what I learned, there are so many ways to solve single issue in golang.
+
+- Use gorm .First() instead of .Find() when looking for a single object, otherwise zero result will not return error.
+
+- Always return correct http status code. [Reference](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml)
+
+- Added DeletedAt, CreatedAt, UpdatedAt. Should have been from the start, if only I read the documentation thoroughly.
+
+Decent progress I think, next time I will finish CRUD for supplier entity and trying gorm transaction for product entity.

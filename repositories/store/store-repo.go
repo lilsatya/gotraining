@@ -12,11 +12,11 @@ type repo struct {
 
 // Repository Interface
 type Repository interface {
-	Create(Store entities.Store) (entities.Store, error)
-	Read(id int) (entities.Store, error)
+	Create(store entities.Store) (entities.Store, error)
+	Read(id int64) (entities.Store, error)
 	List() ([]entities.Store, error)
-	// Update(Store entities.Store) (entities.Store, error)
-	// Delete(id int) (entities.Store, error)
+	Update(id int64, store entities.Store) (entities.Store, error)
+	Delete(id int64) error
 }
 
 // SetRepository function
@@ -26,21 +26,34 @@ func SetRepository(db *gorm.DB) Repository {
 	}
 }
 
-func (p *repo) Create(Store entities.Store) (entities.Store, error) {
-	res := p.db.Create(&Store)
-	return Store, res.Error
+func (p *repo) Create(store entities.Store) (entities.Store, error) {
+	err := p.db.Create(&store).Error
+	return store, err
 }
 
-func (p *repo) Read(id int) (entities.Store, error) {
-	Store := entities.Store{}
-	err := p.db.Where("id = ?", id).Find(&Store).Error
+func (p *repo) Read(id int64) (entities.Store, error) {
+	store := entities.Store{}
+	err := p.db.Where("id = ?", id).First(&store).Error
 
-	return Store, err
+	return store, err
 }
 
 func (p *repo) List() ([]entities.Store, error) {
-	Stores := []entities.Store{}
-	res := p.db.Find(&Stores)
+	stores := []entities.Store{}
+	err := p.db.Find(&stores).Error
 
-	return Stores, res.Error
+	return stores, err
+}
+
+func (p *repo) Update(id int64, store entities.Store) (entities.Store, error) {
+	err := p.db.Where("id = ?", id).Updates(&store).Error
+
+	return store, err
+}
+
+func (p *repo) Delete(id int64) error {
+	var store entities.Store
+	err := p.db.Where("id = ?", id).First(&store).Delete(&store).Error
+
+	return err
 }

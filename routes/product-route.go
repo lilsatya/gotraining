@@ -7,7 +7,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// ProductRoutes route
-func ProductRoutes(r *mux.Router) {
-	r.HandleFunc("/products", product.List).Methods(http.MethodGet)
+// ProductRoute route
+func ProductRoute(r *mux.Router) {
+	r.HandleFunc("/product", product.Create).Methods(http.MethodPost)
+	r.HandleFunc("/product", product.List).Methods(http.MethodGet)
 }
