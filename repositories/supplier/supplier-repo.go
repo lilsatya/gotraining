@@ -12,11 +12,11 @@ type repo struct {
 
 // Repository Interface
 type Repository interface {
-	Create(Supplier entities.Supplier) (entities.Supplier, error)
-	Read(id int) (entities.Supplier, error)
+	Create(supplier entities.Supplier) (entities.Supplier, error)
+	Read(id int64) (entities.Supplier, error)
 	List() ([]entities.Supplier, error)
-	// Update(Supplier entities.Supplier) (entities.Supplier, error)
-	// Delete(id int) (entities.Supplier, error)
+	Update(id int64, supplier entities.Supplier) (entities.Supplier, error)
+	Delete(id int64) error
 }
 
 // SetRepository function
@@ -26,21 +26,34 @@ func SetRepository(db *gorm.DB) Repository {
 	}
 }
 
-func (p *repo) Create(Supplier entities.Supplier) (entities.Supplier, error) {
-	res := p.db.Create(&Supplier)
-	return Supplier, res.Error
+func (p *repo) Create(supplier entities.Supplier) (entities.Supplier, error) {
+	err := p.db.Create(&supplier).Error
+	return supplier, err
 }
 
-func (p *repo) Read(id int) (entities.Supplier, error) {
-	Supplier := entities.Supplier{}
-	err := p.db.Where("id = ?", id).Find(&Supplier).Error
+func (p *repo) Read(id int64) (entities.Supplier, error) {
+	supplier := entities.Supplier{}
+	err := p.db.Where("id = ?", id).First(&supplier).Error
 
-	return Supplier, err
+	return supplier, err
 }
 
 func (p *repo) List() ([]entities.Supplier, error) {
-	Suppliers := []entities.Supplier{}
-	res := p.db.Find(&Suppliers)
+	suppliers := []entities.Supplier{}
+	err := p.db.Find(&suppliers).Error
 
-	return Suppliers, res.Error
+	return suppliers, err
+}
+
+func (p *repo) Update(id int64, supplier entities.Supplier) (entities.Supplier, error) {
+	err := p.db.Where("id = ?", id).First(&supplier).Updates(&supplier).Error
+
+	return supplier, err
+}
+
+func (p *repo) Delete(id int64) error {
+	var supplier entities.Supplier
+	err := p.db.Where("id = ?", id).First(&supplier).Delete(&supplier).Error
+
+	return err
 }

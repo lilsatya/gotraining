@@ -33,3 +33,9 @@ I'll admit I haven't really grasp on how golang works, most of the codes I still
 - Added DeletedAt, CreatedAt, UpdatedAt. Should have been from the start, if only I read the documentation thoroughly.
 
 Decent progress I think, next time I will finish CRUD for supplier entity and trying gorm transaction for product entity.
+
+## 14-10-2020
+
+- Fixed bug on update when the id is not exist, I have to call .First() first to check if the data exist, and then actually update the data.
+
+- Finished supplier module CRUD, there is not much of a difference as store module!!!, I wonder if abstracting these modules is the best way to do or keep them separated?

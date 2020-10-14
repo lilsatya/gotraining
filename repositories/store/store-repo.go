@@ -46,7 +46,7 @@ func (p *repo) List() ([]entities.Store, error) {
 }
 
 func (p *repo) Update(id int64, store entities.Store) (entities.Store, error) {
-	err := p.db.Where("id = ?", id).Updates(&store).Error
+	err := p.db.Where("id = ?", id).First(&store).Updates(&store).Error
 
 	return store, err
 }

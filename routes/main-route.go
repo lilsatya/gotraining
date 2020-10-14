@@ -12,8 +12,9 @@ import (
 func Serve() {
 	r := mux.NewRouter()
 	r.Use(mux.CORSMethodMiddleware(r))
-	ProductRoute(r)
 	StoreRoute(r)
+	SupplierRoute(r)
+	ProductRoute(r)
 
 	server := &http.Server{
 		Addr:         "0.0.0.0:8080",
